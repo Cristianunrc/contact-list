@@ -9,7 +9,7 @@ router.get('/contacts', async (req, res) => {
 
   const contacts = querySnapshot.docs.map(doc => ({
     id: doc.id,
-    ...doc.data()
+    ...doc.data() // give me all docs in data base
   }))
 
   console.log(contacts)
@@ -29,6 +29,34 @@ router.post('/new-contact', async (req, res) => {
   })
 
   res.send('new contact created')
+})
+
+router.get('/edit-contact/:id', async (req, res) => {
+ //Get id from the document
+ const doc = await db.collection('contacts').doc(req.params.id).get()
+
+ console.log({
+  id: doc.id,
+  ...doc.data()
+ })
+
+ res.send('edit-contact')
+})
+
+router.get('/delete-contact/:id', async (req, res) => {
+  
+  await db.collection('contacts').doc(req.params.id).delete()
+
+  res.send('delete contact')
+})
+
+router.post('/update-contact/:id', async (req, res) => {
+  
+  const { id } = req.params
+
+  await db.collection('contacts').doc(id).update(req.body)
+
+  res.send('contact updated')
 })
 
 module.exports = router
