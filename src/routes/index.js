@@ -3,7 +3,7 @@ const { db } = require('../firebase')
 
 const router = Router()
 
-router.get('/contacts', async (req, res) => {
+router.get('/', async (req, res) => {
 
   const querySnapshot = await db.collection('contacts').get()
 
@@ -13,7 +13,7 @@ router.get('/contacts', async (req, res) => {
   }))
 
   console.log(contacts)
-  res.send('Hello')
+  res.render('index', { contacts })
 })
 
 router.post('/new-contact', async (req, res) => {
@@ -28,7 +28,7 @@ router.post('/new-contact', async (req, res) => {
     phone
   })
 
-  res.send('new contact created')
+  res.redirect('/')
 })
 
 router.get('/edit-contact/:id', async (req, res) => {
@@ -47,7 +47,7 @@ router.get('/delete-contact/:id', async (req, res) => {
   
   await db.collection('contacts').doc(req.params.id).delete()
 
-  res.send('delete contact')
+  res.redirect('/')
 })
 
 router.post('/update-contact/:id', async (req, res) => {
