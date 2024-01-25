@@ -1,17 +1,18 @@
 const express = require('express')
 const morgan = require('morgan')
+const path = require('path')
 
-const { db } = require('./firebase')
 const app = express()
 
+// middleware
 app.use(morgan('dev'))
 
-app.get('/', async (req, res) => {
-  
-  const querySnapshot = await db.collection('contacts').get()
+// Send request HTTP
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-  console.log(querySnapshot.docs[0].data())
-  res.send('Hello')
-})
+app.use(require('./routes/index'))
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 module.exports = app
