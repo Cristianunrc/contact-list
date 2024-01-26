@@ -22,6 +22,6 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use(require('./routes/index'))
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 module.exports = app
