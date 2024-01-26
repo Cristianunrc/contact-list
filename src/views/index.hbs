@@ -12,25 +12,25 @@
   {{/each}}
 </ul>
 
-<form action="/new-contact" method="POST">
+<form action="{{#unless contact.id}}/new-contact{{else}}/update-contact/{{contact.id}}{{/unless}}" method="POST">
   <div>
     <label for="firstname">First Name:</label>
-    <input type="text" name="firstname" placeholder="First name" id="firstname">  
+    <input type="text" name="firstname" placeholder="First name" id="firstname" value="{{contact.firstname}}">  
   </div>
 
   <div>
     <label for="lastname">Last Name:</label>
-    <input type="text" name="lastname" placeholder="Last name" id="lastname">  
+    <input type="text" name="lastname" placeholder="Last name" id="lastname" value="{{contact.lastname}}">  
   </div>
 
   <div>
     <label for="email">Email:</label>
-    <input type="email" name="email" placeholder="Email" id="email">
+    <input type="email" name="email" placeholder="Email" id="email" value="{{contact.email}}">
   </div>
 
   <div> 
     <label for="phone">Phone:</label>
-    <input type="text" name="phone" placeholder="Phone" id="phone">
+    <input type="text" name="phone" placeholder="Phone" id="phone" value="{{contact.phone}}">
   </div>
 
   <button>Send</button>
