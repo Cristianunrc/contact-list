@@ -35,12 +35,7 @@ router.get('/edit-contact/:id', async (req, res) => {
  //Get id from the document
  const doc = await db.collection('contacts').doc(req.params.id).get()
 
- console.log({
-  id: doc.id,
-  ...doc.data()
- })
-
- res.send('edit-contact')
+ res.render('index', { contact: {id: doc.id, ...doc.data()} })
 })
 
 router.get('/delete-contact/:id', async (req, res) => {
@@ -56,7 +51,7 @@ router.post('/update-contact/:id', async (req, res) => {
 
   await db.collection('contacts').doc(id).update(req.body)
 
-  res.send('contact updated')
+  res.redirect('/')
 })
 
 module.exports = router
