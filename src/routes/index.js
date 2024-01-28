@@ -18,17 +18,26 @@ router.get('/', async (req, res) => {
 
 router.post('/new-contact', async (req, res) => {
   
-  const { firstname, lastname, email, phone } = req.body
+  try {
+    const { firstname, lastname, email, phone } = req.body
    
-  // Create a new document on Firebase
-   await db.collection('contacts').add({
-    firstname,
-    lastname,
-    email,
-    phone
-  })
+    if (!firstname || !lastname || !email || !phone) {
+      throw new Error('Todos los campos deben ser completados.')
+    }
 
-  res.redirect('/')
+    // Create a new document on Firebase
+    await db.collection('contacts').add({
+      firstname,
+      lastname,
+      email,
+      phone
+    })
+    
+    res.redirect('/')
+
+  } catch(error) {
+    res.status(400).send('Error al agregar un nuevo contacto: ' + error.message)
+  }
 })
 
 router.get('/edit-contact/:id', async (req, res) => {
@@ -47,11 +56,20 @@ router.get('/delete-contact/:id', async (req, res) => {
 
 router.post('/update-contact/:id', async (req, res) => {
   
-  const { id } = req.params
+  try {
+    const { id } = req.params
+    const { firstname, lastname, email, phone } = req.body
 
-  await db.collection('contacts').doc(id).update(req.body)
+    if (!firstname || !lastname || !email || !phone) {
+      throw new Error('Todos los campos deben ser completados.')
+    }
 
-  res.redirect('/')
+    await db.collection('contacts').doc(id).update(req.body)
+    res.redirect('/')
+
+  } catch(error) {
+    res.status(400).send('Error al editar el contacto: ' + error.message)
+  }
 })
 
 module.exports = router
