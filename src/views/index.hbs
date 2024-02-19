@@ -23,7 +23,6 @@
     {{/if}}
 
     <div class="card-footer">
-      
       <form action="{{#unless contact.id}}/new-contact{{else}}/update-contact/{{contact.id}}{{/unless}}" method="POST">
         <div class="row">
           <div class="col">
@@ -91,7 +90,6 @@
           <button class="btn btn-primary btn-block">Agregar</button>
         {{/if}}
       </form>
-
     </div>
   
   </div>
